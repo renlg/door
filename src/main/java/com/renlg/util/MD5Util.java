@@ -66,6 +66,11 @@ public class MD5Util {
         String str = password + USER_PASSWORD_KEY;
         return encrypt(str);
     }
+    
+    public static void main(String[] args) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        String a = encryptUserPassword("123456");
+        System.out.println(a);
+    }
 }
 
 

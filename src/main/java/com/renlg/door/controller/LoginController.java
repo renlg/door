@@ -13,6 +13,9 @@
  */
 package com.renlg.door.controller;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +29,8 @@ import com.renlg.base.Constant;
 import com.renlg.base.JsonResult;
 import com.renlg.user.model.User;
 import com.renlg.user.service.UserService;
+import com.renlg.util.DateUtil;
+import com.renlg.util.LunarUtil;
 
 /**
  * @Type LoginController.java
@@ -66,13 +71,31 @@ public class LoginController extends BaseController {
         }
         return result;
     }
-    
+
+    /**
+     * 用户注销
+     * @param request
+     * @return
+     */
+    @RequestMapping("logout")
+    @ResponseBody
+    public JsonResult logout(HttpServletRequest request) {
+        JsonResult result = new JsonResult();
+        request.getSession().invalidate();
+        return result;
+    }
+
     /**
      * 主页路由
      * @return
      */
     @RequestMapping("index")
-    public String toIndex() {
+    public String toIndex(HttpServletRequest request) {
+        Calendar cal = Calendar.getInstance();
+        LunarUtil lunar = new LunarUtil(cal);
+        request.setAttribute("lunar", lunar.getDateStr());
+        request.setAttribute("weekDay", DateUtil.getWeekDayString(new Date()));
+        request.setAttribute("date", DateUtil.getDateString(new Date()));
         return "index";
     }
 }

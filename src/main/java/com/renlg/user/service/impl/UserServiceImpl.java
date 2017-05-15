@@ -17,12 +17,10 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.renlg.base.BaseService;
 import com.renlg.base.Constant;
-import com.renlg.user.dao.UserMapper;
 import com.renlg.user.model.User;
 import com.renlg.user.service.UserService;
 import com.renlg.util.MD5Util;
@@ -40,7 +38,7 @@ public class UserServiceImpl extends BaseService implements UserService {
     @Override
     public void create(User user) {
         try {
-            user.setPassword(MD5Util.encrypt(user.getUserName()));
+            user.setPassword(MD5Util.encryptUserPassword(user.getUserName()));
         } catch (NoSuchAlgorithmException e) {
             logger.error(e.getMessage(), e);
         } catch (UnsupportedEncodingException e) {
@@ -57,7 +55,7 @@ public class UserServiceImpl extends BaseService implements UserService {
         user.setUserName(userName);
         user.setFlag(Constant.FLAG_ACTIVE_STATUS);
         try {
-            user.setPassword(MD5Util.encrypt(password));
+            user.setPassword(MD5Util.encryptUserPassword(password));
         } catch (NoSuchAlgorithmException e) {
             logger.error(e.getMessage(), e);
             return null;
